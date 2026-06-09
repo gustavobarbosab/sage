@@ -5,6 +5,8 @@
 A lightweight, tool-agnostic workflow for AI-assisted development.  
 Built on SDD, BDD, and Harness Engineering — with the principles of TDD and ADR woven in.
 
+<img width="3780" height="1890" alt="SAGE-COVER" src="https://github.com/user-attachments/assets/6f3c714c-b7af-41c6-b7bc-645e5263be1c" />
+
 ---
 
 ## The principle
