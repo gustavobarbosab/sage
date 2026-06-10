@@ -1,0 +1,65 @@
+---
+description: SAGE /harness-generate command — load when user types @sage harness-generate
+alwaysApply: false
+---
+
+# /sage harness generate
+
+Infers `.sage/harness.md` by analyzing existing codebase files.
+
+## Instructions
+
+Ask the user to share files from their codebase. Suggest the most useful ones:
+
+*"Please share some files so I can infer your project conventions. The most useful are:*
+- *`build.gradle.kts` / `package.json` / `pyproject.toml` (stack and versions)*
+- *2–3 ViewModel or state-holding classes (architecture patterns)*
+- *2–3 UI files / screens / components (UI conventions)*
+- *1–2 DI modules (injection approach)*
+- *1–2 test files (test conventions)*
+- *Any existing `.editorconfig`, `.cursorrules`, or `CLAUDE.md`"*
+
+Once files are provided, analyze them and generate `.sage/harness.md`:
+
+```markdown
+## Project Harness — <inferred project name>
+
+### Stack
+- <inferred stack items with versions>
+
+### Conventions
+- <naming patterns with examples from the code>
+- <architecture rules>
+
+### Avoid
+- <patterns NOT found in the code — things deliberately avoided>
+```
+
+---
+
+## Flags to include
+
+Mark inferences with low confidence:
+```
+❓ Possibly: <inferred rule> — confirm before adopting
+```
+
+Mark inconsistencies found across files:
+```
+⚠️ Inconsistency: <description> — which version is correct?
+```
+
+---
+
+## Rules
+
+- Only infer what the code actually shows — don't invent conventions
+- The "Avoid" section will be sparse on first generation — that's expected
+- Always flag ❓ and ⚠️ items for the user to resolve before committing
+
+---
+
+## After generation
+
+Tell the user:
+*"Harness drafted at `.sage/harness.md`. Review every ❓ and ⚠️ item before committing. Run `/sage harness review` after any major refactor to keep it accurate."*

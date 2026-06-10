@@ -1,0 +1,157 @@
+---
+description: SAGE /spec command — load when user types @sage spec
+alwaysApply: false
+---
+
+# /sage spec
+
+Generates `spec.md` + `behavior.md` through a structured interview — all questions shown upfront, files generated together after answers are collected.
+
+## Inline argument
+
+The user may provide an initial description inline:
+```
+/sage spec "Login screen with email and password"
+/sage spec [paste of Jira ticket content]
+```
+
+If no argument is provided, ask: *"What feature do you want to specify?"*
+
+---
+
+## Step 1 — Analyze and prepare questions
+
+Read the harness from `.sage/harness.md` (or `CLAUDE.md`, `.cursorrules`, or project knowledge).
+
+Analyze the description and identify everything you need to know to write a complete, unambiguous spec. Do NOT generate the spec yet.
+
+Prepare questions across these categories:
+- **Purpose & scope** — what the feature does and what it explicitly doesn't do
+- **Inputs & outputs** — parameters, types, callbacks, events
+- **Acceptance criteria** — testable conditions for each behavior
+- **Restrictions** — forbidden patterns, anti-patterns, out-of-scope items
+- **Edge cases** — boundary conditions, error states, concurrent actions
+
+---
+
+## Step 2 — Present all questions at once
+
+Show all questions in a single message. Format:
+
+```
+I have X questions before writing your spec and behavior files.
+Answer them all and I'll generate both at once.
+
+─────────────────────────────────────────
+ Question 1 of X
+─────────────────────────────────────────
+[Category: Purpose & scope]
+<Question text>
+
+─────────────────────────────────────────
+ Question 2 of X
+─────────────────────────────────────────
+[Category: Inputs & outputs]
+<Question text>
+
+... (all questions)
+
+─────────────────────────────────────────
+Reply with your answers (numbered or in order) and I'll generate
+spec.md and behavior.md together.
+─────────────────────────────────────────
+```
+
+Rules for questions:
+- Only ask what you genuinely can't infer from the description and harness
+- Skip questions whose answers are obvious from context
+- Minimum 3, maximum 10 questions — be thorough but not exhausting
+- Each question must be specific and answerable in 1-2 sentences
+
+---
+
+## Step 3 — Wait for answers
+
+Do not generate anything until the user replies with answers.
+
+---
+
+## Step 4 — Generate spec.md
+
+Once answers are received, generate `spec.md`:
+
+```markdown
+## Feature: <FeatureName>
+
+### What it does
+<1–2 sentence description.>
+
+### Inputs
+- <param>: <Type> — <description>
+
+### Outputs
+- <callback or event>(): <description>
+
+### Acceptance criteria
+- <Testable condition — specific, not vague>
+
+### Do NOT
+- <Explicit restriction>
+```
+
+Rules:
+- Acceptance criteria must be testable — "shows an error" is vague; "shows inline error below the email field" is testable
+- Every answer from the interview must be reflected in the spec
+- Do not deviate from harness conventions when naming things
+
+---
+
+## Step 5 — Generate behavior.md immediately after
+
+Without waiting for further input, generate `behavior.md` from the spec you just wrote.
+
+### Open Questions section (ALWAYS first)
+
+Even after the interview, there may still be residual ambiguities the user didn't cover. List them:
+
+```markdown
+## Open Questions
+- [ ] <Any remaining ambiguity not resolved by the interview>
+```
+
+If the interview covered everything: `- No open questions.`
+
+### Test Cases section
+
+If there are open questions: output the placeholder and stop.
+```markdown
+## Test Cases
+> ⚠️ Pending resolution of open questions above.
+```
+
+If there are NO open questions: generate the full test cases immediately.
+
+Group by: Happy path, Validation, Edge cases, Error handling.
+
+Each scenario:
+```markdown
+**Scenario: <title>**
+Short → <condition + action + outcome>
+Full:
+- Given <precondition>
+- When <action>
+- Then <expected outcome>
+- And <additional assertion>
+```
+
+---
+
+## Output
+
+Show `spec.md` first, then `behavior.md` in the same response.
+
+If open questions remain:
+*"spec.md and behavior.md are ready. Resolve the open questions above, then I'll finalize the test cases. After that, run `/sage code`."*
+
+If no open questions:
+*"spec.md and behavior.md are ready — no open questions. Run `/sage code` to generate the implementation."*

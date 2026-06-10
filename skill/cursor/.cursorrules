@@ -1,0 +1,101 @@
+# SAGE — Cursor Rules
+# Copy this file to your project root as .cursorrules
+
+# ── Harness ───────────────────────────────────────────────────────────────────
+# Fill in your project-specific conventions below.
+# Run /sage harness init or /sage harness generate to generate this automatically.
+
+[HARNESS]
+# Stack:
+# - Language:
+# - UI Framework:
+# - DI:
+# - Architecture:
+# - State management:
+# - Navigation:
+# - Test framework:
+
+# Conventions:
+# - (add naming patterns, architecture rules, required practices)
+
+# Avoid:
+# - (add anti-patterns, deprecated APIs, forbidden patterns)
+[/HARNESS]
+
+# ── SAGE Workflow ─────────────────────────────────────────────────────────────
+# SAGE is a spec-first, AI-assisted development workflow.
+# When the user types @sage or references any SAGE command below, follow these rules.
+
+## Commands
+
+### @sage spec <description>
+Two-phase command — do NOT generate files immediately.
+
+Phase 1 — Interview:
+- Analyze the description and prepare questions
+- Show ALL questions at once with a count: "I have X questions before writing your spec and behavior files."
+- Format each: "Question N of X / [Category] / <question text>"
+- Wait for the user to answer all questions
+- Minimum 3, maximum 10 questions
+
+Phase 2 — Generation (after answers received):
+- Generate spec.md:
+  ## Feature: <name>
+  ### What it does / ### Inputs / ### Outputs / ### Acceptance criteria / ### Do NOT
+- Immediately generate behavior.md in the same response:
+  ## Open Questions (list remaining ambiguities as - [ ] items, or "- No open questions.")
+  ## Test Cases (placeholder if questions remain, full BDD scenarios if none)
+
+Never skip the interview. Never generate files before answers are received.
+
+### @sage behavior
+Read spec.md and generate behavior.md. MANDATORY structure:
+
+SECTION 1 — Open Questions (ALWAYS first):
+List every ambiguity as: - [ ] <question>
+If no ambiguities: - No open questions.
+
+SECTION 2 — Test Cases:
+Output: "> ⚠️ Pending resolution of open questions above."
+STOP. Wait for user to resolve questions before continuing.
+
+After user resolves questions: generate BDD Given/When/Then scenarios.
+Each scenario must have Short and Full versions:
+  **Scenario: <title>**
+  Short → <condition + action + outcome>
+  Full:
+  - Given <precondition>
+  - When <action>
+  - Then <outcome>
+
+### @sage code
+Check behavior.md for unresolved [ ] items first.
+If any remain: block and list them. Do not generate code.
+If all resolved: generate code following the harness conventions exactly.
+Format each file as: // FILE: <relative/path>
+
+### @sage update <feedback>
+Apply precise spec-anchored changes. Do not introduce unrequested changes.
+If change conflicts with spec.md or behavior.md, flag before applying.
+
+### @sage pr
+Generate pr.md: imperative title (<72 chars), summary, changes list,
+ADR-style decisions (every resolved open question + reasoning), acceptance
+criteria checklist, out of scope, testing notes.
+
+### @sage doc
+Generate doc.md: supported states, validation rules, edge cases,
+ADR-style decisions with reasoning, out of scope, known limitations.
+
+### @sage harness init
+Run an interactive wizard — ask stack questions one at a time,
+then update the [HARNESS] section of this .cursorrules file.
+
+### @sage harness generate
+Ask user to share codebase files. Infer conventions.
+Flag low-confidence items with ❓ and inconsistencies with ⚠️.
+Update the [HARNESS] section with inferred content.
+
+### @sage harness review
+Read the [HARNESS] section. Flag issues as ⚠️ <issue> → <fix>.
+Suggest improvements as 💡 <suggestion> → <why>.

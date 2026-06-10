@@ -1,0 +1,66 @@
+---
+description: SAGE /code command — load when user types @sage code
+alwaysApply: false
+---
+
+# /sage code
+
+Generates production-ready code from `spec.md` + `behavior.md`.
+
+## Gate check (REQUIRED before generating)
+
+Read `behavior.md` and check for unresolved open questions (`- [ ]` items).
+
+**If any `- [ ]` items remain:**
+```
+⚠️ Cannot generate code — open questions remain in behavior.md:
+   • <question 1>
+   • <question 2>
+
+Mark each question resolved with [x] in behavior.md, then run /sage code again.
+```
+
+**Stop. Do not generate any code.**
+
+Only proceed when all open questions are marked `[x]` or removed.
+
+---
+
+## Instructions
+
+Read:
+- Harness (`.sage/harness.md`, `CLAUDE.md`, `.cursorrules`, or project knowledge)
+- `spec.md`
+- `behavior.md` (all resolved scenarios)
+
+Generate production-ready code that:
+
+1. Follows harness conventions EXACTLY — stack, naming patterns, architecture, restrictions
+2. Implements every acceptance criterion from spec.md
+3. Satisfies every scenario in behavior.md with corresponding test code
+4. Includes previews/examples where the harness requires them
+5. Respects every "Do NOT" item from spec.md
+
+---
+
+## Output format
+
+Return files in this format — each file preceded by its path:
+
+```
+// FILE: <relative/path/to/File.kt>
+<file content>
+
+// FILE: <relative/path/to/FileTest.kt>
+<file content>
+```
+
+Do not include explanations between files unless asked.
+Do not deviate from the harness architecture.
+
+---
+
+## After generation
+
+Tell the user:
+*"Code generated. Review it against the acceptance criteria in spec.md — point by point, not by gut feel. Use `/sage update <feedback>` for any changes needed. When it's ready, run `/sage pr` and `/sage doc` to export."*

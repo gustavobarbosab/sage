@@ -1,0 +1,26 @@
+---
+description: SAGE spec-first workflow — triggers on @sage commands and references to spec.md, behavior.md, harness.md, pr.md, or doc.md. Use for any AI-assisted feature development following SDD, BDD, and Harness Engineering practices.
+globs: ["**/*.md", "**/*.kt", "**/*.ts", "**/*.tsx", "**/*.py", "**/*.swift"]
+alwaysApply: false
+---
+
+# SAGE
+
+Spec-first, AI-assisted development workflow.
+
+When the user types `@sage <command>`, load the corresponding rule file:
+
+| Command | Rule file |
+|---|---|
+| `@sage spec <description>` | `.cursor/rules/sage-spec.mdc` |
+| `@sage behavior` | `.cursor/rules/sage-behavior.mdc` |
+| `@sage code` | `.cursor/rules/sage-code.mdc` |
+| `@sage update <feedback>` | `.cursor/rules/sage-update.mdc` |
+| `@sage pr` | `.cursor/rules/sage-pr.mdc` |
+| `@sage doc` | `.cursor/rules/sage-doc.mdc` |
+| `@sage harness init` | `.cursor/rules/sage-harness-init.mdc` |
+| `@sage harness generate` | `.cursor/rules/sage-harness-generate.mdc` |
+| `@sage harness review` | `.cursor/rules/sage-harness-review.mdc` |
+
+The harness lives in `.sage/harness.md`. Always load it as context for every SAGE command.
+If it doesn't exist, remind the user once and proceed without it.
