@@ -13,10 +13,8 @@ Built on SDD, BDD, and Harness Engineering — with the principles of TDD and AD
 
 **Front-load the thinking, back-load the generation.**
 
-```
-spec.md  →  behavior.md  →  code       →  pr.md + doc.md
- (you)      (you + AI)      (you + AI)     (AI + you)
-```
+<img width="2816" height="1536" alt="Gemini_Generated_Image_udhcloudhcloudhc" src="https://github.com/user-attachments/assets/662931a4-acdb-43b5-b4f3-f89199d5a10d" />
+
 
 Most steps produce a concrete, committable Markdown file. Nothing lives only in the AI chat.
 
@@ -54,7 +52,7 @@ Go to [`skill/README.md`](skill/README.md) and follow the install instructions f
 
 | Tool | Folder | Install time |
 |---|---|---|
-| Claude.ai | `skill/` (`.skill` file) | ~1 min |
+| Claude Desktop | `skill/` (`.skill` file) | ~1 min |
 | Claude Code | `skill/claude-code/` | ~1 min |
 | Cursor | `skill/cursor/` | ~1 min |
 | GitHub Copilot | `skill/copilot/` | ~2 min |
@@ -81,39 +79,22 @@ Set it up once, commit it, share it with your team.
 
 SAGE interviews you first — shows all questions upfront, waits for your answers, then generates `spec.md` and `behavior.md` together.
 
-### Step 2 — Assert behavior
-
-`/sage behavior` (or auto-generated after `/sage spec`)
-
-Produces `behavior.md` with two mandatory sections:
+It also produces `behavior.md` with two mandatory sections:
 - **Open Questions** — every ambiguity surfaced before any code is written
 - **Test Cases** — BDD Given/When/Then scenarios (only after questions resolved)
 
 This is the ambiguity gate: AI as requirements reviewer, not code generator.
 
-### Step 3 — Generate
+### Step 2 — Generate
 
 `/sage code`
 
 Blocked until all open questions are resolved. Generates code that satisfies the behavioral contract.
 
-### Step 4 — Export
+### Step 3 — Export
 
 `/sage pr` → `pr.md` with ADR-style decisions  
 `/sage doc` → `doc.md` behavioral reference
-
----
-
-## Where this fits
-
-Spec-driven development exploded in 2025-2026. Mature tools exist:
-
-- **GitHub Spec Kit** — open-source SDD CLI
-- **AWS Kiro** — full IDE with spec-driven workflows
-- **BMAD-METHOD** — multi-agent SDLC orchestration
-- **Claude Code with CLAUDE.md** — persistent project context
-
-SAGE is a lightweight approach that works for both personal projects and larger ones, without committing to a heavier framework. No CLI to install, no IDE to switch to. The practices transfer naturally if you ever need more.
 
 ---
 
